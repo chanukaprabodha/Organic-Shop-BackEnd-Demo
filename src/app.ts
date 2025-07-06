@@ -1,16 +1,32 @@
 // 1.Initialize express app
-import express, {Express, Request, Response} from "express";
+import express, {Express} from "express";
+import productRoutes from "./routes/products.routes";
+import cors from 'cors';
 
 const app: Express = express();
 
 // 2.Middleware to parse JSON bodies
 app.use(express.json());
 
-// 3.Define a simple HTTP GET request
-app.get('/',(req:Request,
-             res:Response) => {
-    console.log(req.body);
-    res.send('Hello World!');
-});
+const allowedOrigins = [
+    "http://localhost:5173"
+];
+
+// enable/allow CORS here
+const corsOptions = {
+    origin: (origin: string | undefined,
+             callback: (err: Error | null,
+                        allow?: boolean) => void) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"))
+        }
+    }
+}
+app.use(cors());
+
+// 2.1.Middleware to parse URL-encoded bodies
+app.use("/api/products", productRoutes)
 
 export default app;
