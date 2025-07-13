@@ -31,5 +31,6 @@ app.use(cors(corsOptions));
 // 2.1.Middleware to parse URL-encoded bodies
 app.use("/api/products", productRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/auth",authRoutes);
 
 export default app;
