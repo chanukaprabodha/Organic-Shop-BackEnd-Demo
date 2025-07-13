@@ -2,10 +2,10 @@ import {Request, Response} from 'express';
 import * as productService from '../services/product.service';
 
 // Controller function to get all products
-export const getAllProducts = (req: Request,
-                               res: Response) => {
+export const getAllProducts = async (req: Request,
+                                     res: Response) => {
     try {
-        const products = productService.getAllProducts();
+        const products = await productService.getAllProducts();
         res.status(200).json(products);
     } catch (error) {
         console.error("Error fetching products:", error);
@@ -16,18 +16,18 @@ export const getAllProducts = (req: Request,
 }
 
 // Controller function to save a new product
-export const saveProduct = (req: Request,
-                            res: Response) => {
+export const saveProduct = async (req: Request,
+                                  res: Response) => {
     try {
         const newProduct = req.body;
-        const validationError = productService.validateProduct(newProduct);
+        const validationError = await productService.validateProduct(newProduct);
         if (validationError) {
             res.status(400).json({
                 error: validationError
             });
             return;
         }
-        const savedProduct = productService.saveProduct(newProduct);
+        const savedProduct = await productService.saveProduct(newProduct);
         res.status(201).json(savedProduct);
     } catch (error) {
         console.error("Error saving product:", error);
