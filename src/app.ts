@@ -4,6 +4,7 @@ import productRoutes from "./routes/products.routes";
 import cors from 'cors';
 import contactRoutes from "./routes/contact.routes";
 import authRoutes from "./routes/auth.routes";
+import {authenticateToken} from "./middleware/auth.middleware";
 
 const app: Express = express();
 
@@ -29,7 +30,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // 2.1.Middleware to parse URL-encoded bodies
-app.use("/api/products", productRoutes);
+app.use("/api/products",authenticateToken, productRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/auth",authRoutes);
 

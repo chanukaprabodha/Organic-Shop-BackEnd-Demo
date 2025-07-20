@@ -43,7 +43,7 @@ export const authenticateUser = (username: string,
         username: existingUser.username,
         role: existingUser.role
     }, JWT_SECRET, {
-        expiresIn: '10m'
+        expiresIn: "60s"
     });
 
     const refreshToken = jwt.sign({
